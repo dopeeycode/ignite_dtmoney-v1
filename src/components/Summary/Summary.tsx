@@ -10,21 +10,21 @@ export default function Summary() {
           <p>Entradas</p>
           <img src={income} alt="Entradas" />
         </header>
-        <strong>R$1000,00</strong>
+        <strong>R$12.000,00</strong>
       </div>
       <div>
         <header>
           <p>Saídas</p>
           <img src={outcome} alt="Saídas" />
         </header>
-        <strong> - R$500,00</strong>
+        <strong> - R$5.000,00</strong>
       </div>
       <div className="highlight-background">
         <header>
           <p>Total</p>
           <img src={total} alt="Total" />
         </header>
-        <strong>R$500,00</strong>
+        <strong>R$7.000,00</strong>
       </div>
     </Container>
   )
