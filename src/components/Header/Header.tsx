@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import Modal from 'react-modal';
-
 import { logo } from '../../assets/directory';
 
 // Components Styled

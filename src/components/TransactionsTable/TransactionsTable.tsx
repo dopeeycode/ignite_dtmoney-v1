@@ -14,8 +14,6 @@ export default function TransactionsTable() {
     })
   }, [])
 
-  console.log(data)
-
   return (
     <Container>
       <table>
