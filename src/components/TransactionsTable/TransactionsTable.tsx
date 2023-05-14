@@ -3,13 +3,12 @@ import { Container } from "./styles";
 import { api } from "../../services/api";
 
 // Types
-import { Data } from "../../@types/data";
 
 export default function TransactionsTable() {
-  const [data, setData] = useState<Data[]>([])
+  const [data, setData] = useState([])
 
   useEffect(() => {
-    api.get('/transactions').then(response => {
+    api.get('transactions').then(response => {
       setData(response.data)
     })
   }, [])
