@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import { createServer } from 'miragejs'
+import { createServer } from 'miragejs';
 
 createServer({
   routes() {
@@ -12,6 +12,14 @@ createServer({
         {
           id: 1,
           title: 'Teste 1',
+          amount: 400,
+          type: 'deposti',
+          category: 'Food',
+          createdAt: new Date()
+        },
+        {
+          id: 2,
+          title: 'Teste 2',
           amount: 400,
           type: 'deposti',
           category: 'Food',
