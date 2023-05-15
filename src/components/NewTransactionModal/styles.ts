@@ -1,13 +1,8 @@
 import { styled } from "styled-components";
+import { RadioBoxProps } from "../../@types/RadioBoxProps";
 
 import { darken, transparentize } from 'polished'
 
-const teste = [
-  '#a1a1a1',
-  '#a104a2',
-  '#e76e8a',
-  '#20e201',
-]
 
 export const Container = styled.form`
   h2{
@@ -62,11 +57,6 @@ export const TransactionTypeContainer = styled.div`
 
 `
 
-interface RadioBoxProps {
-  isActive: boolean;
-  activeColor: 'green' | 'red';
-}
-
 const colors = {
   green: '#33CC95',
   red: '#E52E4D'
@@ -102,4 +92,8 @@ export const RadioBox = styled.button<RadioBoxProps>`
     margin-left: 1rem;
     color: var(--text-title);
   }
+`
+
+export const SpanFormModalError = styled.span`
+  color: #E52E4D;
 `

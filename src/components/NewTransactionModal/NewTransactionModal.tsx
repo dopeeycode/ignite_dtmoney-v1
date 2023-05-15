@@ -1,16 +1,42 @@
 import Modal from "react-modal"
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { close as CloseIcon, income as IncomeIcon, outcome as OutcomeIcon } from '../../assets/directory';
-import { Container, TransactionTypeContainer, RadioBox } from "./styles";
+import { Container, TransactionTypeContainer, RadioBox, SpanFormModalError } from "./styles";
 import { useState } from "react";
 
-interface NewTransactionModalProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
-}
+// Types
+import { NewTransactionModalProps, } from "../../@types/TransactionModalProps";
+
+const createTransactionScheme = z.object({
+  title: z.string()
+    .nonempty('Título Obrigatório'),
+  value: z.coerce.number()
+    .min(1, 'Valores acima ou igual a 1$')
+  ,
+  category: z.string()
+    .nonempty('Categoria Obrigatória'),
+})
 
 export default function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
   const [typeTransaction, setTypeTransaction] = useState('')
+
+  const [output, setOutput] = useState('')
+  const { 
+      register, 
+      handleSubmit,
+      formState: { errors }
+    } = useForm<CreateFormTransactionData>({
+    resolver: zodResolver(createTransactionScheme)
+  })
+
+  function createTransaction(data: any ){
+    setOutput(JSON.stringify(data, null, 2))
+  }
+
+  type CreateFormTransactionData = z.infer<typeof createTransactionScheme>
 
 
   return (
@@ -28,15 +54,29 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
         <img src={CloseIcon} alt="Botão de fechar o modal" />
       </button>
 
-      <Container>
+      <Container 
+        onSubmit={handleSubmit(createTransaction)}
+      >
         <h2>Cadastrar transação</h2>
         <input 
           placeholder="Título" 
+          {...register('title')}
         />
+        {errors.title && 
+          <SpanFormModalError>
+            {errors.title.message}
+          </SpanFormModalError>
+        }
         <input 
           type="number" 
+          {...register('value')}
           placeholder="Valor" 
         />
+        {errors.value && 
+          <SpanFormModalError>
+            {errors.value.message}
+          </SpanFormModalError>
+        }
 
         <TransactionTypeContainer>
           <RadioBox
@@ -62,9 +102,16 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
 
         <input 
           placeholder="Categoria" 
+          {...register('category')}
         />
+        {errors.category && 
+          <SpanFormModalError>
+            {errors.category.message}
+          </SpanFormModalError>
+        }
 
         <button type="submit">Cadastrar</button>
+        <pre>{output}</pre>
       </Container>
     </Modal>
 
