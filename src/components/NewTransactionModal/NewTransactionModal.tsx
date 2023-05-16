@@ -2,13 +2,19 @@ import Modal from "react-modal"
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { api } from "../../services/api";
+
 
 import { close as CloseIcon, income as IncomeIcon, outcome as OutcomeIcon } from '../../assets/directory';
 import { Container, TransactionTypeContainer, RadioBox, SpanFormModalError } from "./styles";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 // Types
+type CreateFormTransactionData = z.infer<typeof createTransactionScheme>
 import { NewTransactionModalProps, } from "../../@types/TransactionModalProps";
+
+
+
 
 const createTransactionScheme = z.object({
   title: z.string()
@@ -21,6 +27,9 @@ const createTransactionScheme = z.object({
 })
 
 export default function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+  const [title, setTitle] = useState('')
+  const [value, setValue] = useState(0)
+  const [category, setCategory] = useState('')
   const [typeTransaction, setTypeTransaction] = useState('')
 
   const [output, setOutput] = useState('')
@@ -32,12 +41,19 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
     resolver: zodResolver(createTransactionScheme)
   })
 
-  function createTransaction(data: any ){
-    setOutput(JSON.stringify(data, null, 2))
+
+  function handleCreateNewwTransaction(e: FormEvent){
+    e.preventDefault()
+
+    const data = {
+      title,
+      value,
+      category,
+      typeTransaction
+    };
+
+    api.post('transactions', data)
   }
-
-  type CreateFormTransactionData = z.infer<typeof createTransactionScheme>
-
 
   return (
     <Modal 
@@ -55,12 +71,14 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
       </button>
 
       <Container 
-        onSubmit={handleSubmit(createTransaction)}
+        onSubmit={handleCreateNewwTransaction}
       >
         <h2>Cadastrar transação</h2>
         <input 
           placeholder="Título" 
-          {...register('title')}
+          value={title}
+          onChange={event => setTitle(event.target.value)}
+          // {...register('title')}
         />
         {errors.title && 
           <SpanFormModalError>
@@ -69,8 +87,10 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
         }
         <input 
           type="number" 
-          {...register('value')}
+          // {...register('value')}
           placeholder="Valor" 
+          value={value}
+          onChange={event => setValue(Number(event.target.value))}
         />
         {errors.value && 
           <SpanFormModalError>
@@ -102,7 +122,9 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
 
         <input 
           placeholder="Categoria" 
-          {...register('category')}
+          value={category}
+          onChange={event => setCategory(event.target.value)}
+          // {...register('category')}
         />
         {errors.category && 
           <SpanFormModalError>
