@@ -32,7 +32,6 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
   const [category, setCategory] = useState('')
   const [typeTransaction, setTypeTransaction] = useState('')
 
-  const [output, setOutput] = useState('')
   const { 
       register, 
       handleSubmit,
@@ -133,7 +132,6 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
         }
 
         <button type="submit">Cadastrar</button>
-        <pre>{output}</pre>
       </Container>
     </Modal>
 

@@ -1,8 +1,12 @@
-import { Container } from "./styles";
+import { useContext } from 'react'
 
+import { Container } from "./styles";
 import { income, outcome, total } from '../../assets/directory'
+import { TransactionsContext } from '../../TransactionsContext';
 
 export default function Summary() {
+  const data = useContext(TransactionsContext)
+
   return (
     <Container>
       <div>
