@@ -3,16 +3,16 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { api } from "../../services/api";
+import { FormEvent, useState, useContext } from "react";
 
 
 import { close as CloseIcon, income as IncomeIcon, outcome as OutcomeIcon } from '../../assets/directory';
 import { Container, TransactionTypeContainer, RadioBox, SpanFormModalError } from "./styles";
-import { FormEvent, useState } from "react";
 
 // Types
 type CreateFormTransactionData = z.infer<typeof createTransactionScheme>
 import { NewTransactionModalProps, } from "../../@types/TransactionModalProps";
-
+import { TransactionsContext } from "../../context/TransactionsContext";
 
 
 
@@ -27,6 +27,8 @@ const createTransactionScheme = z.object({
 })
 
 export default function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+  const { createTransaction } = useContext(TransactionsContext)
+
   const [title, setTitle] = useState('')
   const [value, setValue] = useState(0)
   const [category, setCategory] = useState('')
@@ -44,14 +46,12 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
   function handleCreateNewwTransaction(e: FormEvent){
     e.preventDefault()
 
-    const data = {
-      title,
-      value,
-      category,
-      typeTransaction
-    };
-
-    api.post('transactions', data)
+   createTransaction({
+    title,
+    amount: value,
+    category,
+    type: typeTransaction,
+   })
   }
 
   return (

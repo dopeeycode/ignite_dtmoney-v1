@@ -2,10 +2,10 @@ import { useContext } from 'react'
 
 import { Container } from "./styles";
 import { income, outcome, total } from '../../assets/directory'
-import { TransactionsContext } from '../../TransactionsContext';
+import { TransactionsContext } from '../../context/TransactionsContext';
 
 export default function Summary() {
-  const data = useContext(TransactionsContext)
+  const { transactions } = useContext(TransactionsContext)
 
   return (
     <Container>
