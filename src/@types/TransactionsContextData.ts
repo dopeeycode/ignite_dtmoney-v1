@@ -3,5 +3,5 @@ import { dataNewTransaction } from "./dbNewTransaction";
 
 export interface TransactionsContextData {
   transactions: dataNewTransaction[];
-  createTransaction: (transaction: TransactionsInput) => void;
+  createTransaction: (transaction: TransactionsInput) => Promise<void>;
 }

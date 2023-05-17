@@ -2,7 +2,6 @@ import Modal from "react-modal"
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { api } from "../../services/api";
 import { FormEvent, useState, useContext } from "react";
 
 
@@ -34,24 +33,27 @@ export default function NewTransactionModal({ isOpen, onRequestClose }: NewTrans
   const [category, setCategory] = useState('')
   const [typeTransaction, setTypeTransaction] = useState('')
 
-  const { 
-      register, 
-      handleSubmit,
-      formState: { errors }
-    } = useForm<CreateFormTransactionData>({
+  const { formState: { errors }} = useForm<CreateFormTransactionData>({
     resolver: zodResolver(createTransactionScheme)
   })
 
 
-  function handleCreateNewwTransaction(e: FormEvent){
+  async function handleCreateNewwTransaction(e: FormEvent){
     e.preventDefault()
 
-   createTransaction({
+   await createTransaction({
     title,
     amount: value,
     category,
     type: typeTransaction,
    })
+
+   setTitle('')
+   setValue(0)
+   setCategory('')
+   setTypeTransaction('deposit')
+   onRequestClose();
+
   }
 
   return (
