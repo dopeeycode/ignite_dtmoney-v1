@@ -2,7 +2,7 @@ import Modal from "react-modal"
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FormEvent, useState, useContext } from "react";
+import { FormEvent, useState } from "react";
 
 
 import { close as CloseIcon, income as IncomeIcon, outcome as OutcomeIcon } from '../../assets/directory';
@@ -11,8 +11,7 @@ import { Container, TransactionTypeContainer, RadioBox, SpanFormModalError } fro
 // Types
 type CreateFormTransactionData = z.infer<typeof createTransactionScheme>
 import { NewTransactionModalProps, } from "../../@types/TransactionModalProps";
-import { TransactionsContext } from "../../context/TransactionsContext";
-
+import { useTransactions } from "../../hooks/useTransactions";
 
 
 const createTransactionScheme = z.object({
@@ -26,8 +25,7 @@ const createTransactionScheme = z.object({
 })
 
 export default function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
-  const { createTransaction } = useContext(TransactionsContext)
-
+  const { createTransaction } = useTransactions();
   const [title, setTitle] = useState('')
   const [value, setValue] = useState(0)
   const [category, setCategory] = useState('')

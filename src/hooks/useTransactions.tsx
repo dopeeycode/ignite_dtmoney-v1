@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { api } from '../services/api';
 
 // Types
@@ -38,4 +38,10 @@ export default function TransactionsProvider({ children }: TransactionsProviderP
       {children}
     </TransactionsContext.Provider>
   );
+}
+
+export function useTransactions(){
+  const context = useContext(TransactionsContext);
+
+  return context;
 }
